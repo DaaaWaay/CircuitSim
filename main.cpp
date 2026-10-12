@@ -1,6 +1,7 @@
 //Replace the lines below with your library
 //#include "your_graph_library.h"
 #include "rc_circuit.h"
+#include "plotter.h"
 
 //Usual stuff
 #include <iomanip>
@@ -10,7 +11,7 @@
 using namespace std;
 
 int main() {
-
+    Plotter plotter;
     //Set some values here
     double R        = 1000.0;
     double C        = 0.001;
@@ -36,13 +37,13 @@ int main() {
         results.push_back(circuit.getVc()); //Add result to the results vector
     }
 
-    // Print the values of the capacitor voltage over time for debugging purposes
-    // Delete this section once you have verified the results
-    for (auto value : results) {
-        cout << value << " " << endl;
-    }
+    //debug
+    //for (auto value : results) {
+        //cout << value << " " << endl;
+    //}
     
-
-    //Do something with it using the plotter you created...
-
+    //uses the plotter.h i made
+    for (int i =1; i <= results.size(); i += 5){
+        plotter.plotLine(results[i], vin, i, dt);
+    }
 }

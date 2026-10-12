@@ -1,7 +1,7 @@
 // A basic "passable" C2 answer
 //For those who didn't have their last year's log book with them!
-
-#include <studio.h> //Probably gives an error here....
+#if 0
+#include <stdio.h> //Probably gives an error here....
 #include <math.h>
 
 void plotval(float value, int width)
@@ -38,3 +38,4 @@ int main(){
 	
 	return 0;
 }
+#endif
