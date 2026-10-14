@@ -17,9 +17,9 @@ public:
     ~Plotter()
     {
     }
-    void plotLine(float value, float vin, int i, int dt)
+    void plotLine(float value, float vin, int num, int dt)
     {
-        printf("%.3fV %.3fs  |", value, i * dt);
+        printf("%.3fV %.3fs  |", value, num * dt);
         int number_of_space = (value / vin) * width;
         for(int i = number_of_space; i > 0; i--)
         {
