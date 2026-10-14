@@ -8,11 +8,7 @@ int main()
     const double PI = 3.14159265358979323846;
     Plotter plotter;   //creates a plotter object with default width 60
     vector<double> an = {5.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-    vector<double> bn = {0.0, 2.0 / PI,         // n = 1
-                        -2.0 / (2 * PI),   // n = 2
-                        2.0 / (3 * PI),   // n = 3
-                        -2.0 / (4 * PI),   // n = 4
-                        2.0 / (5 * PI)};  // n = 5
+    vector<double> bn = {0.0, 2.0 / PI, -2.0 / (2 * PI), 2.0 / (3 * PI), -2.0 / (4 * PI),2.0 / (5 * PI)};
 
     double  period         = 1.0;   // period T of the signal
     int     numPeriods     = 2;     // how many repeats to show
@@ -37,6 +33,6 @@ int main()
 
     for (int i = 1; i < pointsPerPeriod * numPeriods * period; i++)
     {
-        plotter.plotLine(results[i], 5, i, pointsPerPeriod);
+        plotter.plotLine(results[i], 2, i, pointsPerPeriod);
     }
 }
