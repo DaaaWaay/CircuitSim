@@ -5,9 +5,10 @@
 class RCCircuit 
 {
     public:
-        RCCircuit(double resistance, double capacitance)
+        RCCircuit(double resistance, double capacitance, double inductance)
         :R(resistance)
         ,C(capacitance)
+        ,L(inductance)
         {
 
         }
@@ -17,7 +18,8 @@ class RCCircuit
         }
         void step(double dt) // Updates Vc to the next time step
         {
-            vc += (vin - vc) / (R * C) * dt;
+            I +=(vin - R * I - vc) / L * dt;
+            vc += I / C * dt;
         }
 
         double getVc(){
@@ -29,6 +31,8 @@ class RCCircuit
     private:
         double R;
         double C;
+        double L;
+        double I = 0;
         double vin = 0;
         double vc = 0;
 };
@@ -39,16 +43,18 @@ class Controller
         double trgV;
         double maxOUT;
         double minOUT;
+        double K;
     
     public:
-        Controller(double targetVoltage, double maximumOutputVoltage, double minimumOutputVoltage)
+        Controller(double targetVoltage, double maximumOutputVoltage, double minimumOutputVoltage, double K)
         :trgV(targetVoltage)
         ,maxOUT(maximumOutputVoltage)
         ,minOUT(minimumOutputVoltage)
+        ,K(K)
         {
             
         }
-        double calculateOutput(double currentVoltage)
+        double calculateOutputBANGBANG(double currentVoltage)
         {
             if (currentVoltage >= trgV){
                 return minOUT;
@@ -61,6 +67,20 @@ class Controller
             {
                 return minOUT;
             }
+        }
+
+        double calculateOutputProp(double currentVoltage)
+        {
+            double newV = -(currentVoltage - trgV) * K;
+            if (newV > maxOUT)
+            {
+                return maxOUT;
+            }
+            if (newV < minOUT)
+            {
+                return minOUT;
+            }
+            return newV;
         }
 
 };

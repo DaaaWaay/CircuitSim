@@ -11,16 +11,22 @@
 using namespace std;
 
 int main() {
-
+    GUI GUI;
     //Set some values here
-    double R        = 1000.0;
-    double C        = 0.001;
-    double vin      = 5.0;
+    GUI.titleScreen();
+
+    double R        = GUI.getR();
+    double C        = GUI.getC();
+    double L        = GUI.getL();
+    double vin      = GUI.getVin();
     double dt       = 0.01;
     double duration = 5.0;
-    double targetVoltage = 2.5;
-    double maxVoltage = 10;
-    double minVoltage = 0;
+    double targetVoltage = GUI.getTargetVoltage();
+    double maxVoltage = GUI.getmaxVoltage();
+    double minVoltage = GUI.getminVoltage();
+    double propotonalK = GUI.getPorportaonalK();
+    int resolution = GUI.getRes();
+    bool iscontroller = GUI.getControll();
 
     //Calculate the steps
     int steps = (int)(duration / dt);
@@ -29,10 +35,10 @@ int main() {
     Plotter plotter;
 
     //initalize the controller object
-    Controller controller(targetVoltage, maxVoltage, minVoltage);
+    Controller controller(targetVoltage, maxVoltage, minVoltage , propotonalK);
 
     //Initialize your circuit object
-    RCCircuit circuit(R, C);
+    RCCircuit circuit(R, C, L);
     circuit.setVin(vin);
 
     // Store the results
@@ -44,17 +50,22 @@ int main() {
     for (int i = 1; i <= steps; i++) {
         circuit.step(dt); //Step the simulation by dt
         results.push_back(circuit.getVc()); //Add result to the results vector
-        circuit.setVin(controller.calculateOutput(circuit.getVc()));
-
+        if (iscontroller)
+        {
+            circuit.setVin(controller.calculateOutputProp(circuit.getVc()));
+        }
     }
 
-    //debug 
-    //for (auto value : results) {
-        //cout << value << " " << endl;
-    //}
     
     //uses the plotter.h i made
-    for (int i =1; i <= results.size(); i += 5){
-        plotter.plotLine(results[i], vin, i, dt);
+    for (int i =1; i <= results.size(); i += resolution){
+        if (iscontroller)
+        {
+            plotter.plotLine(results[i], maxVoltage );
+        }
+        else
+        {
+            plotter.plotLine(results[i], vin );
+        }
     }
 }
