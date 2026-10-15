@@ -45,8 +45,13 @@ public:
 
     void titleScreen()
     {
-        cout << "\033[2J\033[1;1H";
-        printf("Circuit sim \n");
+        cout << "\033[2J\033[1;1H"; // ascii art form google ai thing when you search stuff
+        printf("Circuit sim \n"
+                            "R                 L                C             \n"
+                            "+----//////------+------( ( ( ) ) )------+------| |--+  \n"
+                            "|                |                        |           | \n"
+                            "|                +------------------------+           | \n"
+                            "|                                                     | \n");
         system("pause");
     }
 
@@ -65,8 +70,6 @@ public:
         }
         return R;
     }
-
-
     
     double getC()
     {
@@ -114,7 +117,7 @@ public:
         return Vin;
     }
 
-        double getTargetVoltage()
+    double getTargetVoltage()
     {
         double Vt;
         cout << "\033[2J\033[1;1H";        

@@ -18,29 +18,48 @@ int main() {
     double R        = GUI.getR();
     double C        = GUI.getC();
     double L        = GUI.getL();
-    double vin      = GUI.getVin();
+    bool iscontroller = GUI.getControll();
+    double targetVoltage = 0;
+    double maxVoltage = 0;
+    double minVoltage = 0;
+    double propotonalK = 0;
+    double vin = 0;
+
+    if (iscontroller)
+    {
+        targetVoltage = GUI.getTargetVoltage();
+        maxVoltage = GUI.getmaxVoltage();
+        minVoltage = GUI.getminVoltage();
+        propotonalK = GUI.getPorportaonalK();
+    }
+    else
+    {
+        vin = GUI.getVin();
+    }
+
     double dt       = 0.01;
     double duration = 5.0;
-    double targetVoltage = GUI.getTargetVoltage();
-    double maxVoltage = GUI.getmaxVoltage();
-    double minVoltage = GUI.getminVoltage();
-    double propotonalK = GUI.getPorportaonalK();
+    
     int resolution = GUI.getRes();
-    bool iscontroller = GUI.getControll();
 
     //Calculate the steps
     int steps = (int)(duration / dt);
 
     //Initialize the plotter object
     Plotter plotter;
-
+             
     //initalize the controller object
     Controller controller(targetVoltage, maxVoltage, minVoltage , propotonalK);
-
     //Initialize your circuit object
     RCCircuit circuit(R, C, L);
-    circuit.setVin(vin);
-
+    if (!(iscontroller))
+    {
+        circuit.setVin(vin);
+    }
+    else
+    {
+        circuit.setVin(controller.calculateOutputProp(circuit.getVc()));
+    }
     // Store the results
     vector<double> results;
 
@@ -58,7 +77,7 @@ int main() {
 
     
     //uses the plotter.h i made
-    for (int i =1; i <= results.size(); i += resolution){
+    for (int i = 0; i < results.size(); i += resolution){
         if (iscontroller)
         {
             plotter.plotLine(results[i], maxVoltage );
