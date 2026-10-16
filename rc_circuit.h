@@ -18,8 +18,15 @@ class RCCircuit
         }
         void step(double dt) // Updates Vc to the next time step
         {
-            I +=(vin - R * I - vc) / L * dt;
-            vc += I / C * dt;
+            if (L == 0)
+            {
+                vc += (vin - vc) / (R * C) * dt;
+            }
+            else
+            {
+                I +=(vin - R * I - vc) / L * dt;
+                vc += I / C * dt;
+            }
         }
 
         double getVc(){

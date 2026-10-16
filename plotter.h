@@ -195,6 +195,8 @@ public:
     bool getControll()
         {   
             char YorN;
+            cout << "\033[2J\033[1;1H";        
+
             cout << "Do you want this to be a controll system type Y or N" << endl;
             cin >> YorN;
             if (toupper(YorN) == 'Y')

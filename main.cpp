@@ -55,7 +55,7 @@ int main() {
     if (!(iscontroller))
     {
         circuit.setVin(vin);
-    }
+    } 
     else
     {
         circuit.setVin(controller.calculateOutputProp(circuit.getVc()));
